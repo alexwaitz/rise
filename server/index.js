@@ -39,6 +39,7 @@ canvas.assignment.get(9048, 146061, (err, res) => {
 */
 
 app.use(bodyParser.json());
+app.use(bodyParser());
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
