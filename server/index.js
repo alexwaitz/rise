@@ -4,43 +4,55 @@ const app = express();
 const port = 3000;
 
 // graphql import
-const { request } = require('graphql-request');
+const fetch = require('isomorphic-fetch');
 const graphqlEndpoint = 'https://hshacks-rise.herokuapp.com/v1alpha1/graphql';
 
-/* this query asks for the age of all user entries with the name being equal to "Alexander Waitz"
-let exampleQuery = `
-{
-    users(
-      where: {name: {_eq: "Alexander Waitz"}}
-    ) {
-      age
-    }
-}
-`;
+/*
+// canvas
+const canvas = require('canvas-api');
 
-request(graphqlEndpoint, exampleQuery)
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+canvas.helpers.getAllResources(
+  {
+    url:
+      'https://sequoia.instructure.com/api/v1/courses/9048/gradebook_history/days/'
+  },
+  (err, res) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(res);
+    }
+  }
+);
+
+canvas.assignment.get(9048, 146061, (err, res) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(res);
+  }
+});
 */
 
 app.get('/', (req, res) => res.send('Hello World!'));
 
 // sending a list of all users
 app.get('/users', (req, res) => {
-  request(
-    graphqlEndpoint,
-    `
-    {
-        users (
-            order_by: points_desc
-        ) {
-            name
-            points
-        }
-    }
-    `
-  ).then(data => {
-    res.send(data);
+  fetch(graphqlEndpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: '{ users (order_by: points_desc) { name points } }'
+    })
+  })
+    .then(fetchRes => fetchRes.json())
+    .then(fetchRes => res.send(fetchRes));
+});
+
+app.post('/user/:id', (req, res) => {
+  fetch(graphqlEndpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' }
   });
 });
 

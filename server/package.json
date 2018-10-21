@@ -10,8 +10,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "canvas-api": "^3.6.0",
+    "canvas-api-wrapper": "^3.3.4",
     "express": "^4.16.4",
+    "form-data": "^2.3.3",
     "graphql": "^14.0.2",
-    "graphql-request": "^1.8.2"
+    "graphql-request": "^1.8.2",
+    "isomorphic-fetch": "^2.2.1"
   }
 }
